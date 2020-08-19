@@ -1,29 +1,24 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-
+import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import { TextInput } from 'react-native-gesture-handler';
 
-export default function TabOneScreen() {
-
-
+export default function TabTwoScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Lista</Text>
+      <Text style={styles.title}>Complete</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
-    color: '#000',
     fontSize: 20,
     fontWeight: 'bold',
   },
