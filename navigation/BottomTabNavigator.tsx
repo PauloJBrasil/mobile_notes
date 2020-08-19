@@ -56,11 +56,11 @@ const TabOneStack = createStackNavigator<TabOneParamList>();
 
 function TabOneNavigator() {
   return (
-    <TabOneStack.Navigator>
+    <TabOneStack.Navigator headerMode={"none"}>
       <TabOneStack.Screen
         name="TabOneScreen"
         component={TabOneScreen}
-        options={{ headerTitle: 'List' }}
+        options={{ headerTitle: 'List'}}
       />
     </TabOneStack.Navigator>
   );
@@ -70,7 +70,7 @@ const TabTwoStack = createStackNavigator<TabTwoParamList>();
 
 function TabTwoNavigator() {
   return (
-    <TabTwoStack.Navigator>
+    <TabTwoStack.Navigator headerMode={"none"}>
       <TabTwoStack.Screen
         name="TabTwoScreen"
         component={TabTwoScreen}
@@ -84,7 +84,7 @@ const TabThreeStack = createStackNavigator<TabThreeParamList>();
 
 function TabThreeNavigator() {
   return (
-    <TabThreeStack.Navigator>
+    <TabThreeStack.Navigator headerMode={"none"}>
       <TabThreeStack.Screen
         name="TabThreeScreen"
         component={TabThreeScreen}

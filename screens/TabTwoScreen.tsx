@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { StyleSheet, TextInput, Text, View, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, TextInput, Text, View, Animated } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Formik } from 'formik';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function TabTwoScreen() {
-
+  const [showResults, setShowResults] = React.useState(false)
+  const onClick = (value) => setShowResults(value)
 
   return (
-    <KeyboardAvoidingView behavior='position' style={styles.container}>
-      <TouchableWithoutFeedback>
+    <ScrollView contentContainerStyle={styles.container}>
       <Formik
         initialValues={{title: '', name: '', cost: '', description: ''}}
         onSubmit={(values) => {
@@ -17,8 +18,6 @@ export default function TabTwoScreen() {
       >
         {(props) => (
           <View>
-
-            <Text style={styles.title}>{props.values.title}</Text>
 
             <TextInput style={styles.separator}/>
 
@@ -45,20 +44,27 @@ export default function TabTwoScreen() {
             onChangeText={props.handleChange('cost')}
             value={props.values.cost} />
 
-            <TextInput
+            <TextInput style={styles.separator}/>
+
+            { showResults ? <TextInput
             multiline={true}
             style={styles.input_description}
             placeholder="Descricao"
             placeholderTextColor="gray"
-            onChangeText={props.handleChange('description')}
-            value={props.values.description} />
 
-            <Button style={styles.button} color='gray' icon="check" mode="contained" onPress={props.handleSubmit}>Submit</Button>
+            onChangeText={props.handleChange('description')}
+            value={props.values.description} /> : null }
+
+            { showResults ? <Button style={styles.button_description} color='#e2f4ed' icon="arrow-up" mode="contained" onPress={() => onClick(false)}>Description Hide</Button>:
+            <Button style={styles.button_description} color='#e2f4ed' icon="arrow-down" mode="contained" onPress={() => onClick(true)}>Description Show</Button>
+}
+            <TextInput style={styles.separator}/>
+
+            <Button style={styles.button} color='lightblue' icon="check" mode="contained" onPress={props.handleSubmit}>Adicionar</Button>
           </View>
         )}
       </Formik>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 
@@ -67,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   title: {
     color: '#000',
@@ -102,5 +108,11 @@ const styles = StyleSheet.create({
   },
   button: {
     bottom: -50,
-  }
+  },
+  button_description : {
+    alignContent: 'center',
+    alignSelf: 'center',
+    width: 200,
+    bottom: -50,
+  },
 });
