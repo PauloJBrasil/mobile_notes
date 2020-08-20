@@ -1,25 +1,44 @@
 import * as React from 'react';
-import { StyleSheet, TextInput, Text, View, Animated } from 'react-native';
+import { StyleSheet, TextInput, View, TouchableOpacity, Image } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Formik } from 'formik';
 import { ScrollView } from 'react-native-gesture-handler';
+import * as ImagePicker from 'expo-image-picker';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function TabTwoScreen() {
   const [showResults, setShowResults] = React.useState(false)
-  const onClick = (value) => setShowResults(value)
+  const [showImage, setShowImage] = React.useState({locale: null});
+  const onClick = (value: React.SetStateAction<boolean>) => setShowResults(value)
+
+  async function imagePickerCallback() {
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      quality:1,
+    });
+
+    setShowImage({ locale: result.uri})
+
+    console.log(result)
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Formik
-        initialValues={{title: '', name: '', cost: '', description: ''}}
+        initialValues={{title: '', name: '', cost: '', description: '', images: []}}
         onSubmit={(values) => {
           console.log(values)
         }}
       >
         {(props) => (
           <View>
-
-            <TextInput style={styles.separator}/>
+            <TouchableOpacity style={styles.back} onPress={() => imagePickerCallback()}>
+              {showImage.locale === null || showImage.locale === undefined?
+              <Ionicons name="ios-camera" size={80} color={'gray'}/> :
+              <Image source={{uri: showImage.locale}} style={styles.image}/>}
+            </TouchableOpacity>
 
             <TextInput
             style={styles.input}
@@ -44,7 +63,6 @@ export default function TabTwoScreen() {
             onChangeText={props.handleChange('cost')}
             value={props.values.cost} />
 
-            <TextInput style={styles.separator}/>
 
             { showResults ? <TextInput
             multiline={true}
@@ -73,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-around',
   },
   title: {
     color: '#000',
@@ -115,4 +133,16 @@ const styles = StyleSheet.create({
     width: 200,
     bottom: -50,
   },
+  image: {
+    alignSelf: 'center',
+    bottom: 10,
+    width: 150,
+    height: 200,
+    borderRadius: 20,
+  },
+  back: {
+    width: 70,
+    alignItems: 'center',
+    alignSelf: 'center',
+  }
 });
